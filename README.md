@@ -1,5 +1,7 @@
 # Qingci-Bot 插件市场
 
+> **代码托管**：本仓库以 [GitHub](https://github.com/Qingci-Bot/Plugin-Market) 为权威主仓库，[AtomGit](https://atomgit.com/Qingci-Bot/Plugin-Market) 为自动同步的只读镜像；贡献与提 PR 一律以 GitHub 为准。
+
 Qingci-Bot 官方插件市场索引仓库。
 
 ## 结构
