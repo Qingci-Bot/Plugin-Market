@@ -28,7 +28,7 @@ Qingci-Bot 官方插件市场索引仓库。
       "type": "sdk",              // sdk / builtin
       "icon": "👋",               // 卡片图标（emoji，可选）
       "homepage": "https://...",  // 插件主页链接（可选）
-      "source": "https://atomgit.com/Qingci-Bot/Plugin-Market.git",  // 安装来源
+      "source": "https://github.com/Qingci-Bot/Plugin-Market.git",  // 安装来源
       "tags": ["demo"],           // 标签（WebUI 可按标签筛选）
       "requirements": ["qingci-plugin-sdk>=1.0"],  // 依赖展示（可选；安装时以插件内 requirements.txt 为准）
       "updated_at": "2026-08-16"
@@ -48,5 +48,5 @@ Qingci-Bot 官方插件市场索引仓库。
 
 ## 客户端
 
-- 默认索引地址（raw）：`https://atomgit.com/Qingci-Bot/Plugin-Market/raw/master/index.json`
+- 默认索引地址（raw）：`https://github.com/Qingci-Bot/Plugin-Market/raw/master/index.json`
 - 缓存 TTL：默认 3600 秒，WebUI「刷新市场」可强制刷新
