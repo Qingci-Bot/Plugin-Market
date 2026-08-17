@@ -1,0 +1,1 @@
+qingci-plugin-sdk>=1.0
