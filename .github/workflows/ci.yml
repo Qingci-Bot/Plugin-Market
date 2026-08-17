@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+jobs:
+  validate-index:
+    name: Validate plugin index
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate index.json & plugin manifests
+        run: python scripts/validate_index.py
+
+      - name: Validate JSON syntax of all plugin.json
+        run: |
+          set -e
+          for f in plugins/*/plugin.json; do
+            python -c "import json,sys; json.load(open('$f', encoding='utf-8'))" \
+              && echo "OK  $f"
+          done
