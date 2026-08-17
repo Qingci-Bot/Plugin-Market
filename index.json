@@ -11,7 +11,7 @@
       "type": "sdk",
       "icon": "👋",
       "homepage": "https://github.com/Qingci-Bot/Plugins-SDK",
-      "source": "https://github.com/Qingci-Bot/Plugin-Market.git",
+      "source": "https://gitee.com/luoqingciya/Plugin-Market.git",
       "tags": ["demo", "sdk", "示例"],
       "requirements": ["qingci-plugin-sdk>=1.0"],
       "updated_at": "2026-08-16"

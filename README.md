@@ -1,6 +1,6 @@
 # Qingci-Bot 插件市场
 
-> **代码托管**：本仓库以 [GitHub](https://github.com/Qingci-Bot/Plugin-Market) 为权威主仓库，[AtomGit](https://atomgit.com/Qingci-Bot/Plugin-Market) 为自动同步的只读镜像；贡献与提 PR 一律以 GitHub 为准。
+> **代码托管**：本仓库以 [GitHub](https://github.com/Qingci-Bot/Plugin-Market) 为权威主仓库，[Gitee](https://gitee.com/luoqingciya/Plugin-Market) 为自动同步的只读镜像（国内拉取更快，默认市场源）；贡献与提 PR 一律以 GitHub 为准。
 
 Qingci-Bot 官方插件市场索引仓库。
 
@@ -30,7 +30,7 @@ Qingci-Bot 官方插件市场索引仓库。
       "type": "sdk",              // sdk / builtin
       "icon": "👋",               // 卡片图标（emoji，可选）
       "homepage": "https://...",  // 插件主页链接（可选）
-      "source": "https://github.com/Qingci-Bot/Plugin-Market.git",  // 安装来源
+      "source": "https://gitee.com/luoqingciya/Plugin-Market.git",  // 安装来源（默认 Gitee 镜像，可切 GitHub 主仓库）
       "tags": ["demo"],           // 标签（WebUI 可按标签筛选）
       "requirements": ["qingci-plugin-sdk>=1.0"],  // 依赖展示（可选；安装时以插件内 requirements.txt 为准）
       "updated_at": "2026-08-16"
@@ -50,5 +50,6 @@ Qingci-Bot 官方插件市场索引仓库。
 
 ## 客户端
 
-- 默认索引地址（raw）：`https://github.com/Qingci-Bot/Plugin-Market/raw/main/index.json`
+- 默认市场源（Qingci-Bot 运行时克隆，Gitee 镜像国内更快）：`https://gitee.com/luoqingciya/Plugin-Market.git`（`market.url` 可切回 GitHub 主仓库）
+- 权威索引 raw 地址：`https://github.com/Qingci-Bot/Plugin-Market/raw/main/index.json`
 - 缓存 TTL：默认 3600 秒，WebUI「刷新市场」可强制刷新
