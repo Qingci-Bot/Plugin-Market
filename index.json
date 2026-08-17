@@ -10,8 +10,8 @@
       "author": "Qingci-Bot",
       "type": "sdk",
       "icon": "👋",
-      "homepage": "https://atomgit.com/Qingci-Bot/Plugins-SDK",
-      "source": "https://atomgit.com/Qingci-Bot/Plugin-Market.git",
+      "homepage": "https://github.com/Qingci-Bot/Plugins-SDK",
+      "source": "https://github.com/Qingci-Bot/Plugin-Market.git",
       "tags": ["demo", "sdk", "示例"],
       "requirements": ["qingci-plugin-sdk>=1.0"],
       "updated_at": "2026-08-16"

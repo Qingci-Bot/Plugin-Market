@@ -48,5 +48,5 @@ Qingci-Bot 官方插件市场索引仓库。
 
 ## 客户端
 
-- 默认索引地址（raw）：`https://github.com/Qingci-Bot/Plugin-Market/raw/master/index.json`
+- 默认索引地址（raw）：`https://github.com/Qingci-Bot/Plugin-Market/raw/main/index.json`
 - 缓存 TTL：默认 3600 秒，WebUI「刷新市场」可强制刷新
