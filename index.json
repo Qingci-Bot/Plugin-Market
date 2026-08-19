@@ -12,6 +12,7 @@
       "icon": "👋",
       "homepage": "https://github.com/Qingci-Bot/hello",
       "source": "https://github.com/Qingci-Bot/hello.git",
+      "mirror": "https://gitee.com/qingci-bot/hello.git",
       "tags": ["demo", "sdk", "示例"],
       "requirements": ["qingci-plugin-sdk>=1.0"],
       "python_requires": ">=3.10",
