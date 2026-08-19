@@ -14,6 +14,7 @@
       "source": "https://github.com/Qingci-Bot/hello.git",
       "tags": ["demo", "sdk", "示例"],
       "requirements": ["qingci-plugin-sdk>=1.0"],
+      "python_requires": ">=3.10",
       "updated_at": "2026-08-19"
     }
   ]

@@ -11,7 +11,8 @@ Qingci-Bot 官方插件市场**索引仓库**。
 ```
 ├── index.json              # 市场索引（清单）
 ├── scripts/
-│   └── validate_index.py   # 索引校验脚本（CI 使用，零第三方依赖）
+│   ├── validate_index.py   # 索引校验脚本（CI 使用，零第三方依赖）
+│   └── bump_index.py       # 收录条目维护脚本（按插件名更新版本/日期/字段）
 ├── .github/workflows/ci.yml # 索引校验 CI
 ├── LICENSE                 # GPL-3.0
 └── .gitignore
@@ -41,6 +42,7 @@ Qingci-Bot 官方插件市场**索引仓库**。
       "mirror": "https://gitee.com/author/plugin.git",   // 备用地址（可选，主地址拉取失败时回退）
       "tags": ["demo"],           // 标签（WebUI 可按标签筛选）
       "requirements": ["qingci-plugin-sdk>=1.0"],  // 依赖展示（可选；安装时以插件内 requirements.txt 为准）
+      "python_requires": ">=3.10", // Python 版本约束（可选；缺省视为兼容任意版本）
       "updated_at": "2026-08-19"
     }
   ]
@@ -51,6 +53,7 @@ Qingci-Bot 官方插件市场**索引仓库**。
 
 - `source`（必填）：插件源码的 git 仓库地址（`https://...git` / `git@...` / `git+https://...`）或 HTTP 归档 URL（zip/tar）。安装时 Qingci-Bot 克隆/下载该仓库并自动定位插件目录（支持仓库根或 `plugins/<name>/` 嵌套布局）。
 - `mirror`（可选）：备用地址。主地址拉取失败时 Qingci-Bot 自动回退到该地址（如国内 Gitee 镜像、反向代理等）。
+- `python_requires`（可选）：PEP 440 版本约束字符串（如 `>=3.10`），声明插件要求的 Python 版本。缺省视为兼容任意版本；WebUI 市场页会据此标记「当前环境不兼容」的插件并禁用安装。
 - `plugins` 数组按 `name` 升序排列，且 `updated_at` 不得晚于当前日期（CI 强制）。
 
 ## 添加插件（PR 流程）
@@ -62,6 +65,7 @@ Qingci-Bot 官方插件市场**索引仓库**。
 3. 提交 PR 到本仓库；CI 校验通过后合并
 
 > 本地自检：`python scripts/validate_index.py`（零依赖，改完 index.json 先跑一遍再提 PR）。
+> 发布新版本：`python scripts/bump_index.py <name> --version x.y.z`（自动更新版本号与更新日期并复跑校验；可用 `--title/--description/--tag` 等同步改字段）。
 
 > 没有独立仓库？可直接引用包含插件的既有仓库；官方示例 hello 即为独立插件仓库：[Qingci-Bot/hello](https://github.com/Qingci-Bot/hello)（仓库根即插件源码，可作新仓库模板）。
 
