@@ -12,8 +12,12 @@ Qingci-Bot 官方插件市场**索引仓库**。
 ├── index.json              # 市场索引（清单）
 ├── scripts/
 │   └── validate_index.py   # 索引校验脚本（CI 使用，零第三方依赖）
-└── plugins/                # （不托管源码；模板见 Plugins-SDK 仓库 plugins/_template，示例见独立仓库 Qingci-Bot/hello）
+├── .github/workflows/ci.yml # 索引校验 CI
+├── LICENSE                 # GPL-3.0
+└── .gitignore
 ```
+
+> 本仓库不含插件源码。插件模板见 [Plugins-SDK](https://github.com/Qingci-Bot/Plugins-SDK) 仓库 `plugins/_template/`，示例见独立仓库 [Qingci-Bot/hello](https://github.com/Qingci-Bot/hello)。
 
 ## 索引格式
 
