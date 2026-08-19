@@ -5,16 +5,16 @@
     {
       "name": "hello",
       "title": "Hello 示例插件",
-      "description": "Hello World 示例插件，演示 SDK 能力：i18n 国际化、生命周期钩子、指令别名/子指令/类型化参数、LLM 工具声明、会话阶梯、类型化事件",
+      "description": "Hello World 示例插件，演示 SDK 能力：i18n 国际化、生命周期钩子、指令别名/子指令/类型化参数、LLM 工具声明、会话阶梯、类型化事件。",
       "version": "1.4.0",
       "author": "Qingci-Bot",
       "type": "sdk",
       "icon": "👋",
-      "homepage": "https://github.com/Qingci-Bot/Plugins-SDK",
-      "source": "https://gitee.com/qingci-bot/Plugin-Market.git",
+      "homepage": "https://github.com/Qingci-Bot/hello",
+      "source": "https://github.com/Qingci-Bot/hello.git",
       "tags": ["demo", "sdk", "示例"],
       "requirements": ["qingci-plugin-sdk>=1.0"],
-      "updated_at": "2026-08-16"
+      "updated_at": "2026-08-19"
     }
   ]
 }
