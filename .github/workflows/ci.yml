@@ -11,12 +11,12 @@ on:
 jobs:
   validate-index:
     name: Validate plugin index
-    runs-on: [ubuntu-24, x64, small]
+    runs-on: ubuntu-latest
     steps:
-      - uses: checkout
+      - uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: setup-python
+        uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
@@ -25,12 +25,12 @@ jobs:
 
   test-scripts:
     name: Test validation scripts
-    runs-on: [ubuntu-24, x64, small]
+    runs-on: ubuntu-latest
     steps:
-      - uses: checkout
+      - uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: setup-python
+        uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
@@ -42,13 +42,13 @@ jobs:
 
   check-mirror-sync:
     name: Check Gitee mirror sync
-    runs-on: [ubuntu-24, x64, small]
+    runs-on: ubuntu-latest
     if: github.event_name == 'schedule'
     steps:
-      - uses: checkout
+      - uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: setup-python
+        uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
