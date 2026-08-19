@@ -22,7 +22,7 @@
       "name": "shiguang",
       "title": "拾光集",
       "description": "安全插画发图（Lolicon 主源 + Pixiv 回退 + 内容安全 + 多自然日去重）+ 签到系统（金币/好感/连签/成就/称号/主题商店/排行/备份），由 AstrBot「画境拾珍」移植。",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "author": "luoqingciya",
       "type": "sdk",
       "icon": "🌅",
