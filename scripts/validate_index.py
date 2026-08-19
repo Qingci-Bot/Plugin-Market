@@ -3,7 +3,10 @@
 校验 index.json 的结构与内容一致性，供 CI 拦截：
 - JSON 合法性、顶层结构（name/version/plugins）
 - 插件条目的必填字段与格式（name 合法 slug、version 语义化、updated_at 日期）
-- 与 plugins/<name>/plugin.json 的一致性（目录存在、name 匹配）
+- source（插件仓库地址，必填）与 mirror（备用地址，可选）的 URL 格式
+- 内容规则：name 唯一、updated_at 不得晚于今天、plugins 按 name 排序
+
+本仓库为「索引仓库」：不托管插件源码，仅登记插件元数据与仓库地址。
 
 用法: python scripts/validate_index.py [index.json 路径]
 退出码: 0 通过 / 1 校验失败
@@ -12,7 +15,7 @@
 import json
 import re
 import sys
-from datetime import datetime
+from datetime import UTC, date, datetime
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
@@ -33,14 +36,24 @@ _LIST_FIELDS = ("requirements", "tags")
 # name 允许的字符集（小写字母/数字/短横线/下划线）
 _NAME_RE = re.compile(r"^[a-z0-9][a-z0-9_-]*$")
 _VERSION_RE = re.compile(r"^\d+\.\d+(\.\d+)?([-+][0-9A-Za-z.-]+)?$")
+# 插件来源：git 仓库（http(s).git / git@ / git+ / ssh://）或 http(s) 归档（zip/tar）
+_SOURCE_RE = re.compile(
+    r"^(git\+https?://|git@|ssh://|https?://).+(\.git$|\.zip$|\.tar(\.gz|\.bz2|\.xz)?$|/)"
+)
 
 
 def _err(errors: list[str], msg: str) -> None:
     errors.append(msg)
 
 
+def _valid_source(value: str) -> bool:
+    """source/mirror 必须是 git 仓库或归档 URL（本地路径不在索引仓库允许范围）"""
+    return bool(_SOURCE_RE.match(value.strip()))
+
+
 def validate_index(index_path: Path) -> int:
     errors: list[str] = []
+    today = datetime.now(UTC).date()
 
     try:
         # utf-8-sig 容忍 Windows 编辑器写入的 BOM
@@ -62,6 +75,7 @@ def validate_index(index_path: Path) -> int:
         _err(errors, "plugins 必须是非空列表")
 
     seen: set[str] = set()
+    prev_name: str | None = None
     for idx, item in enumerate(plugins or []):
         if not isinstance(item, dict):
             _err(errors, f"plugins[{idx}] 必须是对象")
@@ -79,6 +93,13 @@ def validate_index(index_path: Path) -> int:
             if name in seen:
                 _err(errors, f"{tag}: name 重复")
             seen.add(name)
+            # 排序确定性：要求按 name 升序排列（减小多人 PR 的 diff 冲突）
+            if prev_name is not None and name.lower() < prev_name.lower():
+                _err(
+                    errors,
+                    f"{tag}: plugins 未按 name 排序（{prev_name} 之后出现 {name}）",
+                )
+            prev_name = name
 
         version = item.get("version")
         if isinstance(version, str) and not _VERSION_RE.match(version):
@@ -87,37 +108,34 @@ def validate_index(index_path: Path) -> int:
         updated = item.get("updated_at")
         if isinstance(updated, str):
             try:
-                datetime.strptime(updated, "%Y-%m-%d")
+                updated_date = date.fromisoformat(updated)
             except ValueError:
                 _err(errors, f"{tag}: updated_at 必须为 YYYY-MM-DD: {updated!r}")
+            else:
+                if updated_date > today:
+                    _err(errors, f"{tag}: updated_at 晚于今天: {updated!r}")
 
         for field in _LIST_FIELDS:
             value = item.get(field)
             if value is None:
                 continue
-            if not isinstance(value, list) or not all(isinstance(v, str) for v in value):
+            if not isinstance(value, list) or not all(
+                isinstance(v, str) for v in value
+            ):
                 _err(errors, f"{tag}: {field} 必须为字符串列表")
 
         source = item.get("source")
-        if isinstance(source, str) and source and "://" not in source and ".git" not in source:
-            _err(errors, f"{tag}: source 应为 URL 或 .git 仓库地址: {source!r}")
+        if isinstance(source, str) and not _valid_source(source):
+            _err(errors, f"{tag}: source 应为插件 git 仓库或归档 URL: {source!r}")
 
-        # 与插件目录一致性
-        plugin_dir = REPO_ROOT / "plugins" / (name or "")
-        if not plugin_dir.is_dir():
-            _err(errors, f"{tag}: 缺少目录 plugins/{name or ''}")
-            continue
-        plugin_json = plugin_dir / "plugin.json"
-        if not plugin_json.is_file():
-            _err(errors, f"{tag}: 缺少 plugins/{name or ''}/plugin.json")
-            continue
-        try:
-            meta = json.loads(plugin_json.read_text(encoding="utf-8-sig"))
-            meta_name = meta.get("name") if isinstance(meta, dict) else None
-            if meta_name != name:
-                _err(errors, f"{tag}: plugin.json 的 name={meta_name!r} 与索引不一致")
-        except (json.JSONDecodeError, OSError) as e:
-            _err(errors, f"{tag}: plugin.json 无法解析: {e}")
+        mirror = item.get("mirror")
+        if mirror is not None:
+            if not isinstance(mirror, str) or not mirror.strip():
+                _err(errors, f"{tag}: mirror 必须是非空字符串")
+            elif not _valid_source(mirror):
+                _err(errors, f"{tag}: mirror 应为插件 git 仓库或归档 URL: {mirror!r}")
+            elif mirror.strip() == (source or "").strip():
+                _err(errors, f"{tag}: mirror 与 source 相同（备用地址应不同）")
 
     if errors:
         print(f"[FAIL] 校验未通过，共 {len(errors)} 个问题:")

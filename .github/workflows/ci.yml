@@ -8,22 +8,14 @@ on:
 jobs:
   validate-index:
     name: Validate plugin index
-    runs-on: ubuntu-latest
+    runs-on: [ubuntu-24, x64, small]
     steps:
-      - uses: actions/checkout@v4
+      - uses: checkout
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: setup-python
         with:
           python-version: "3.12"
 
-      - name: Validate index.json & plugin manifests
+      - name: Validate index.json
         run: python scripts/validate_index.py
-
-      - name: Validate JSON syntax of all plugin.json
-        run: |
-          set -e
-          for f in plugins/*/plugin.json; do
-            python -c "import json,sys; json.load(open('$f', encoding='utf-8'))" \
-              && echo "OK  $f"
-          done
