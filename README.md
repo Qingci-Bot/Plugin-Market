@@ -61,6 +61,8 @@ Qingci-Bot 官方插件市场**索引仓库**。
 2. 在 `index.json` 的 `plugins` 数组按 name 排序插入条目：`source` 填你的仓库地址，可选 `mirror` 填备用地址，`updated_at` 填当天日期
 3. 提交 PR 到本仓库；CI 校验通过后合并
 
+> 本地自检：`python scripts/validate_index.py`（零依赖，改完 index.json 先跑一遍再提 PR）。
+
 > 没有独立仓库？可直接引用包含插件的既有仓库；官方示例 hello 即为独立插件仓库：[Qingci-Bot/hello](https://github.com/Qingci-Bot/hello)（仓库根即插件源码，可作新仓库模板）。
 
 ### 收录标准（建议）

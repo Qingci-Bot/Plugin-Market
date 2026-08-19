@@ -4,6 +4,9 @@ on:
   push:
     branches: ["**"]
   pull_request:
+  # 每日 01:00 UTC（北京时间 09:00）对拍 Gitee 镜像同步状态
+  schedule:
+    - cron: "0 1 * * *"
 
 jobs:
   validate-index:
@@ -19,3 +22,35 @@ jobs:
 
       - name: Validate index.json
         run: python scripts/validate_index.py
+
+  test-scripts:
+    name: Test validation scripts
+    runs-on: [ubuntu-24, x64, small]
+    steps:
+      - uses: checkout
+
+      - name: Set up Python
+        uses: setup-python
+        with:
+          python-version: "3.12"
+
+      - name: Install pytest
+        run: pip install pytest
+
+      - name: Run unit tests
+        run: python -m pytest tests -q
+
+  check-mirror-sync:
+    name: Check Gitee mirror sync
+    runs-on: [ubuntu-24, x64, small]
+    if: github.event_name == 'schedule'
+    steps:
+      - uses: checkout
+
+      - name: Set up Python
+        uses: setup-python
+        with:
+          python-version: "3.12"
+
+      - name: Compare GitHub vs Gitee index
+        run: python scripts/check_mirror_sync.py

@@ -17,6 +17,7 @@ import re
 import sys
 from datetime import UTC, date, datetime
 from pathlib import Path
+from urllib.parse import urlparse
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
@@ -36,10 +37,6 @@ _LIST_FIELDS = ("requirements", "tags")
 # name 允许的字符集（小写字母/数字/短横线/下划线）
 _NAME_RE = re.compile(r"^[a-z0-9][a-z0-9_-]*$")
 _VERSION_RE = re.compile(r"^\d+\.\d+(\.\d+)?([-+][0-9A-Za-z.-]+)?$")
-# 插件来源：git 仓库（http(s).git / git@ / git+ / ssh://）或 http(s) 归档（zip/tar）
-_SOURCE_RE = re.compile(
-    r"^(git\+https?://|git@|ssh://|https?://).+(\.git$|\.zip$|\.tar(\.gz|\.bz2|\.xz)?$|/)"
-)
 
 
 def _err(errors: list[str], msg: str) -> None:
@@ -47,8 +44,19 @@ def _err(errors: list[str], msg: str) -> None:
 
 
 def _valid_source(value: str) -> bool:
-    """source/mirror 必须是 git 仓库或归档 URL（本地路径不在索引仓库允许范围）"""
-    return bool(_SOURCE_RE.match(value.strip()))
+    """source/mirror 必须是 git 仓库或 HTTP 归档 URL（本地路径不在索引仓库允许范围）
+
+    - git 协议：`git@host:path`、`ssh://host/path`、`git+https://host/path`
+    - http(s)：scheme + host 非空即可；`.git` 后缀、zip/tar 归档、带路径均合法，
+      不带后缀的仓库首页式地址（如 `https://gitee.com/user/repo`）同样通过
+    """
+    v = value.strip()
+    if v.startswith(("git@", "ssh://", "git+http://", "git+https://")):
+        return True
+    if v.startswith(("http://", "https://")):
+        parsed = urlparse(v)
+        return bool(parsed.scheme and parsed.netloc)
+    return False
 
 
 def validate_index(index_path: Path) -> int:
