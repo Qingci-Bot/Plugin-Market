@@ -29,6 +29,7 @@ _FIELD_OPTIONS = {
     "source": "source",
     "mirror": "mirror",
     "python_requires": "python_requires",
+    "source_sha256": "source_sha256",
 }
 
 

@@ -37,6 +37,10 @@ _LIST_FIELDS = ("requirements", "tags")
 # name 允许的字符集（小写字母/数字/短横线/下划线）
 _NAME_RE = re.compile(r"^[a-z0-9][a-z0-9_-]*$")
 _VERSION_RE = re.compile(r"^\d+\.\d+(\.\d+)?([-+][0-9A-Za-z.-]+)?$")
+# 归档完整性校验和：64 位小写十六进制（sha256 摘要）
+_SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
+# HTTP 归档来源特征（zip/tar 等），声明 source_sha256 时建议配合
+_ARCHIVE_URL_RE = re.compile(r"\.(zip|tar|tar\.gz|tgz|tar\.bz2|tbz2|gz)(\?|/|$)", re.I)
 
 
 def _err(errors: list[str], msg: str) -> None:
@@ -144,6 +148,17 @@ def validate_index(index_path: Path) -> int:
                 _err(errors, f"{tag}: mirror 应为插件 git 仓库或归档 URL: {mirror!r}")
             elif mirror.strip() == (source or "").strip():
                 _err(errors, f"{tag}: mirror 与 source 相同（备用地址应不同）")
+
+        sha = item.get("source_sha256")
+        if sha is not None:
+            if not isinstance(sha, str) or not _SHA256_RE.match(sha.strip()):
+                _err(errors, f"{tag}: source_sha256 必须为 64 位十六进制: {sha!r}")
+            elif isinstance(source, str) and not _ARCHIVE_URL_RE.search(source):
+                _err(
+                    errors,
+                    f"{tag}: source_sha256 仅适用于 HTTP 归档来源（git 仓库自带完整性），"
+                    f"source: {source!r}",
+                )
 
     if errors:
         print(f"[FAIL] 校验未通过，共 {len(errors)} 个问题:")

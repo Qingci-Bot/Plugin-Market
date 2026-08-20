@@ -147,6 +147,39 @@ def test_invalid_mirror_rejected(index_file: Path):
     assert validate_index.validate_index(index_file) == 1
 
 
+# ---------- source_sha256 归档校验和 ----------
+
+
+def test_source_sha256_archive_passes(index_file: Path):
+    """HTTP 归档来源 + 合法 64 位 sha256 通过"""
+    data = json.loads(index_file.read_text(encoding="utf-8"))
+    entry = data["plugins"][0]
+    entry["source"] = "https://example.com/releases/hello-v1.2.0.zip"
+    entry["source_sha256"] = "a" * 64
+    index_file.write_text(json.dumps(data), encoding="utf-8")
+    assert validate_index.validate_index(index_file) == 0
+
+
+def test_source_sha256_bad_format_rejected(index_file: Path):
+    """非 64 位十六进制的 sha256 被拒绝"""
+    data = json.loads(index_file.read_text(encoding="utf-8"))
+    entry = data["plugins"][0]
+    entry["source"] = "https://example.com/releases/hello-v1.2.0.zip"
+    entry["source_sha256"] = "zz" + "a" * 62
+    index_file.write_text(json.dumps(data), encoding="utf-8")
+    assert validate_index.validate_index(index_file) == 1
+
+
+def test_source_sha256_on_git_source_rejected(index_file: Path):
+    """git 仓库来源声明 source_sha256 被拒绝（git 自带完整性）"""
+    data = json.loads(index_file.read_text(encoding="utf-8"))
+    entry = data["plugins"][0]
+    entry["source"] = "https://github.com/author/hello.git"
+    entry["source_sha256"] = "b" * 64
+    index_file.write_text(json.dumps(data), encoding="utf-8")
+    assert validate_index.validate_index(index_file) == 1
+
+
 # ---------- 排序规则 ----------
 
 
