@@ -12,8 +12,13 @@ Qingci-Bot 官方插件市场**索引仓库**。
 ├── index.json              # 市场索引（清单）
 ├── scripts/
 │   ├── validate_index.py   # 索引校验脚本（CI 使用，零第三方依赖）
-│   └── bump_index.py       # 收录条目维护脚本（按插件名更新版本/日期/字段）
-├── .github/workflows/ci.yml # 索引校验 CI
+│   ├── bump_index.py       # 收录条目维护脚本（按插件名更新版本/日期/字段）
+│   ├── sync_versions.py    # 索引版本自动校准脚本（从插件仓库读 plugin.json 同步 version）
+│   └── check_mirror_sync.py # Gitee 镜像同步对拍脚本（CI 定时）
+├── tests/                  # 脚本单元测试
+├── .github/workflows/
+│   ├── ci.yml              # 索引校验 + 脚本测试 + 镜像对拍 CI
+│   └── sync-index.yml      # 每日定时自动校准索引版本（可手动触发）
 ├── LICENSE                 # GPL-3.0
 └── .gitignore
 ```
