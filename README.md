@@ -66,6 +66,7 @@ Qingci-Bot 官方插件市场**索引仓库**。
 
 > 本地自检：`python scripts/validate_index.py`（零依赖，改完 index.json 先跑一遍再提 PR）。
 > 发布新版本：`python scripts/bump_index.py <name> --version x.y.z`（自动更新版本号与更新日期并复跑校验；可用 `--title/--description/--tag` 等同步改字段）。
+> 索引版本自动校准：`python scripts/sync_versions.py` 从各插件 `source` 仓库读取 `plugin.json` 的 `version` 并自动同步到 index.json（GitHub Actions 每日定时运行 `.github/workflows/sync-index.yml`，发版后无需手动改索引）。
 
 > 没有独立仓库？可直接引用包含插件的既有仓库；官方示例 hello 即为独立插件仓库：[Qingci-Bot/hello](https://github.com/Qingci-Bot/hello)（仓库根即插件源码，可作新仓库模板）。
 

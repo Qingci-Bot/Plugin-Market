@@ -1,0 +1,39 @@
+name: Sync Market Index Versions
+
+on:
+  # 每天 02:00 UTC（北京时间 10:00）自动校准索引版本；
+  # 如需发版后立即同步，可在 Actions 页面手动触发 workflow_dispatch。
+  schedule:
+    - cron: "0 2 * * *"
+  workflow_dispatch:
+
+# 允许工作流把更新后的 index.json 自动提交回 main（github-actions[bot] 身份）
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    name: Sync plugin versions from sources
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run sync_versions
+        run: python scripts/sync_versions.py
+
+      - name: Commit & push if changed
+        run: |
+          if git diff --quiet; then
+            echo "索引无需更新"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.json
+          git commit -m "chore: 自动同步插件版本（$(date +%F)）"
+          git push
