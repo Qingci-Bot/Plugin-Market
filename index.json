@@ -13,8 +13,14 @@
       "homepage": "https://github.com/Qingci-Bot/hello",
       "source": "https://github.com/Qingci-Bot/hello.git",
       "mirror": "https://gitee.com/qingci-bot/hello.git",
-      "tags": ["demo", "sdk", "示例"],
-      "requirements": ["qingci-plugin-sdk>=1.0"],
+      "tags": [
+        "demo",
+        "sdk",
+        "示例"
+      ],
+      "requirements": [
+        "qingci-plugin-sdk>=1.0"
+      ],
       "python_requires": ">=3.10",
       "updated_at": "2026-08-19"
     },
@@ -22,17 +28,23 @@
       "name": "shiguang",
       "title": "拾光集",
       "description": "安全插画发图（Lolicon 主源 + Pixiv 回退 + 内容安全 + 多自然日去重）+ 签到系统（金币/好感/连签/成就/称号/主题商店/排行/备份），由 AstrBot「画境拾珍」移植。",
-      "version": "1.0.1",
+      "version": "1.0.2",
       "author": "luoqingciya",
       "type": "sdk",
       "icon": "🌅",
       "homepage": "https://github.com/luoqingciya/shiguang",
       "source": "https://gitee.com/luoqingciya/shiguang.git",
       "mirror": "https://github.com/luoqingciya/shiguang.git",
-      "tags": ["fun", "画图", "签到"],
-      "requirements": ["qingci-plugin-sdk>=1.9.0"],
+      "tags": [
+        "fun",
+        "画图",
+        "签到"
+      ],
+      "requirements": [
+        "qingci-plugin-sdk>=1.9.0"
+      ],
       "python_requires": ">=3.10",
-      "updated_at": "2026-08-19"
+      "updated_at": "2026-08-21"
     }
   ]
 }
