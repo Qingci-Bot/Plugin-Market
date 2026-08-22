@@ -15,7 +15,7 @@ validate_index.py 自检。供 CI 定时/手动触发（.github/workflows/sync-i
 - 单个插件仓库拉取失败仅告警跳过，不阻断其余条目
 - 无任何变化时不写文件（CI 据此判断是否提交，避免空提交噪音）
 
-退出码：0 正常（含全部跳过）；非 0 仅指 index.json 无法解析/校验失败。
+- 退出码：0 正常（含全部跳过）；非 0 仅指 index.json 无法解析/校验失败。
 """
 
 from __future__ import annotations
@@ -148,7 +148,7 @@ def sync_index(index_path: Path, *, no_validate: bool = False, reader=None) -> i
         validate = REPO_ROOT / "scripts" / "validate_index.py"
         rc = subprocess.call([sys.executable, str(validate), str(index_path)])
         if rc != 0:
-            return 1  # 校验失败，CI 应失败
+            return -2  # 校验失败，CI 应失败（与"同步 N 个"的返回值区分开）
         return len(changed)
 
     print(f"[OK] 无版本变化，索引无需更新（跳过 {len(skipped)} 个）")
@@ -170,7 +170,10 @@ def main() -> int:
     if not index_path.is_file():
         print(f"[ERROR] 找不到索引文件: {index_path}")
         return 1
-    return sync_index(index_path, no_validate=args.no_validate)
+    # sync_index 返回变更数（≥0 正常）/ -1 解析失败 / -2 校验失败，
+    # 仅把失败映射为非零退出码，避免"同步 N 个"被 sys.exit 误报失败。
+    result = sync_index(index_path, no_validate=args.no_validate)
+    return 1 if result < 0 else 0
 
 
 if __name__ == "__main__":
