@@ -50,7 +50,7 @@
       "name": "whale_companion",
       "title": "鲸鱼娘陪伴",
       "description": "基于 DeepSeek 的鲸鱼娘私聊对话与主动陪伴，支持用户白名单、安静时段、活跃检测、发送频控及暂停管理。",
-      "version": "1.0.0",
+      "version": "1.3.0",
       "author": "Qingci-Bot",
       "type": "sdk",
       "icon": "🐋",
@@ -67,7 +67,7 @@
         "qingci-plugin-sdk>=1.13.9"
       ],
       "python_requires": ">=3.10",
-      "updated_at": "2026-10-20"
+      "updated_at": "2026-10-21"
     }
   ]
 }
