@@ -91,4 +91,6 @@ Qingci-Bot 官方插件市场**索引仓库**。
 
 ## 许可
 
-本仓库（索引与校验脚本）以 GPL-3.0 发布；各插件版权与许可归插件作者/各自仓库声明。
+本仓库（索引与校验脚本）以 GPL-3.0-or-later 发布，为 [Qingci-Bot](https://github.com/Qingci-Bot) 组织下**从零开发**的项目，版权归 **Qingci-Bot Organization** 所有；源码文件均带 `Copyright (C) 2026 Qingci-Bot Organization` 与 `SPDX-License-Identifier: GPL-3.0-or-later` 声明。各插件版权与许可归插件作者 / 各自仓库声明。
+
+> 主项目 Qingci-Bot-CE 与 Plugins-SDK 为个人原创后转入组织维护，版权归原作者个人所有，与本仓库的归属不同。

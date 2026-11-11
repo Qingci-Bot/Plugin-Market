@@ -1,3 +1,6 @@
+# Copyright (C) 2026 Qingci-Bot Organization
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """sync_versions.py 单元测试（注入 reader，不触网/不克隆）"""
 
 import json

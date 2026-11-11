@@ -1,3 +1,6 @@
+# Copyright (C) 2026 Qingci-Bot Organization
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """Gitee 镜像同步对拍脚本（CI 定时任务用，零第三方依赖）
 
 比较 GitHub 权威索引 raw 与 Gitee 只读镜像 raw 是否一致，
