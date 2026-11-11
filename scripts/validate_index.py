@@ -1,3 +1,6 @@
+# Copyright (C) 2026 Qingci-Bot Organization
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """插件市场索引校验脚本（零第三方依赖）
 
 校验 index.json 的结构与内容一致性，供 CI 拦截：

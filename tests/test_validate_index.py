@@ -1,3 +1,6 @@
+# Copyright (C) 2026 Qingci-Bot Organization
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """validate_index.py 的单元测试（pytest）
 
 通过 subprocess 或直接 import 脚本模块验证校验逻辑。

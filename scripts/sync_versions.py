@@ -1,3 +1,6 @@
+# Copyright (C) 2026 Qingci-Bot Organization
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """插件市场索引版本自动校准脚本（零第三方依赖）
 
 从每个插件的 `source` 仓库读取 `plugin.json` 的 `version`，与 index.json 中

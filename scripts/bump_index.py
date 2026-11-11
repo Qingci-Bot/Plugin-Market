@@ -1,3 +1,6 @@
+# Copyright (C) 2026 Qingci-Bot Organization
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """插件市场索引条目维护脚本（零第三方依赖）
 
 按插件名更新 index.json 中的条目：
